@@ -45,5 +45,5 @@ if [ "$error_code" -ge 300 ]; then
   echo "$output"
   exit 1
 else
-  echo "Service account with Client ID $CLIENT_ID has been successfully deleted."
+  echo "Service account with Client ID $CLIENT_ID has been deleted successfully."
 fi
