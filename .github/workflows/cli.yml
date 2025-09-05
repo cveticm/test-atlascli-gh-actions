@@ -14,6 +14,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Print env vars
+        shell: bash
+        run: |
+          echo "Printing env vars..."
+          echo "MONGODB_ATLAS_PUBLIC_API_KEY: $MONGODB_ATLAS_PUBLIC_API_KEY"
+          echo "MONGODB_ATLAS_PRIVATE_API_KEY: $MONGODB_ATLAS_PRIVATE_API_KEY"
+          echo "MONGODB_ATLAS_ORG_ID: $MONGODB_ATLAS_ORG_ID"
+          echo "MONGODB_ATLAS_PROJECT_ID: $MONGODB_ATLAS_PROJECT_ID"
+          echo "-----------------------------------"
       - name: Setup AtlasCLI and create a project
         id: create-project
         uses: mongodb/atlas-github-action@v0.2.0
