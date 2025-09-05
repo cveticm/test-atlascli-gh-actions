@@ -21,15 +21,17 @@ jobs:
           MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_API_KEY }}
           MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_API_KEY }}
           MONGODB_ATLAS_ORG_ID: ${{ secrets.MONGODB_ATLAS_ORG_ID }}
-          MONGODB_ATLAS_PROJECT_ID: ${{ secrets.MONGODB_ATLAS_PROJECT_ID }}
         run: |
-          result=$(bash .github/generate-service-account.sh)
-          client_id=$(echo "$result" | grep 'Client ID:' | awk '{print $3}')
-          client_secret=$(echo "$result" | grep 'Client Secret:' | awk '{print $3}')
-          echo "client-id=$client_id" >> $GITHUB_OUTPUT
-          echo "client-secret=$client_secret" >> $GITHUB_OUTPUT
-
+          bash .github/generate-service-account.sh
       - name: Use outputs
         run: |
           echo "Client ID: ${{ steps.generate_sa.outputs.client-id }}"
           echo "Client Secret: ${{ steps.generate_sa.outputs.client-secret }}"
+      - name: Run terminate-service-account.sh
+        env:
+          MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_API_KEY }}
+          MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_API_KEY }}
+          MONGODB_ATLAS_ORG_ID: ${{ secrets.MONGODB_ATLAS_ORG_ID }}
+          CLIENT_ID: ${{ steps.generate_sa.outputs.client-id }}
+        run: |
+          bash .github/terminate-service-account.sh
