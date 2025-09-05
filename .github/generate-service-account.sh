@@ -46,5 +46,5 @@ output=$(
 client_id=$(echo "$output" | jq -r '.clientId')
 client_secret=$(echo "$output" | jq -r '.secrets[0].secret')
 
-echo "client_id=$client_id" >> $GITHUB_OUTPUT
-echo "client_secret=$client_secret" >> $GITHUB_OUTPUT
+echo "client-id=$client_id" >> $GITHUB_OUTPUT
+echo "client-secret=$client_secret" >> $GITHUB_OUTPUT
