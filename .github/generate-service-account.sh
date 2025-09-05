@@ -30,7 +30,7 @@ fi
 
 output=$(
     curl --user "${MONGODB_ATLAS_PUBLIC_API_KEY}:${MONGODB_ATLAS_PRIVATE_API_KEY}" \
-    --digest --include \
+    --digest \
     --header "Accept: application/vnd.atlas.2025-03-12+json" \
     --header "Content-Type: application/json" \
     -X POST "https://cloud.mongodb.com/api/atlas/v2/orgs/${MONGODB_ATLAS_ORG_ID}/serviceAccounts" \
