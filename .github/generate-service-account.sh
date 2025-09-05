@@ -46,5 +46,13 @@ output=$(
 client_id=$(echo "$output" | jq -r '.clientId')
 client_secret=$(echo "$output" | jq -r '.secrets[0].secret')
 
+if [ -z "$client_id" ] || [ -z "$client_secret" ]; then
+  echo "Failed to create service account. Response:"
+  echo "$output"
+  exit 1
+else
+  echo "Service account with client ID $client_id created successfully."
+fi
+
 echo "client-id=$client_id" >> $GITHUB_OUTPUT
 echo "client-secret=$client_secret" >> $GITHUB_OUTPUT
