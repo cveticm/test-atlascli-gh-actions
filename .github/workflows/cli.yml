@@ -1,48 +1,27 @@
 on: 
     workflow_dispatch:
 
-name: Atlas CLI Action build and teardown
+name: Atlas CLI List Clusters Example
 
 env:
-  MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_API_KEY }}
-  MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_API_KEY }}
-  MONGODB_ATLAS_ORG_ID: ${{ secrets.MONGODB_ATLAS_ORG_ID }} # default organisation ID
-  MONGODB_ATLAS_PROJECT_ID: ${{ secrets.MONGODB_ATLAS_PROJECT_ID }} # default project ID
+  MONGODB_ATLAS_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+  MONGODB_ATLAS_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+  MONGODB_ATLAS_ORG_ID: ${{ secrets.ORG_ID }} # default organisation ID
+  MONGODB_ATLAS_PROJECT_ID: ${{ secrets.PROJECT_ID }} # default project ID
 
 jobs:
-  setup:
+  list-clusters:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print env vars
+      - name: Setup AtlasCLI
+        uses: mongodb/atlas-github-action@v0.2.0
+      - name: List Clusters
         shell: bash
         run: |
-          echo "Printing env vars..."
-          echo "MONGODB_ATLAS_PUBLIC_API_KEY: $MONGODB_ATLAS_PUBLIC_API_KEY"
-          echo "MONGODB_ATLAS_PRIVATE_API_KEY: $MONGODB_ATLAS_PRIVATE_API_KEY"
-          echo "MONGODB_ATLAS_ORG_ID: $MONGODB_ATLAS_ORG_ID"
-          echo "MONGODB_ATLAS_PROJECT_ID: $MONGODB_ATLAS_PROJECT_ID"
-          echo "-----------------------------------"
-      - name: Setup AtlasCLI and create a project
-        id: create-project
-        uses: mongodb/atlas-github-action@v0.2.0
+          atlas cluster list --projectId "$MONGODB_ATLAS_PROJECT_ID" --output json > clusters.json
+      - name: Upload Cluster List
+        uses: actions/upload-artifact@v4
         with:
-          create-project-name: test-setup-project
-      - name: Run setup
-        id: setup
-        uses: mongodb/atlas-github-action@v0.2.0
-        with:
-          run-setup: true
-          project-id: ${{ steps.create-project.outputs.create-project-id }}
-          cluster-name: test-cluster
-          username: test-user
-          password: test-password
-      - name: Retrieve Connection String
-        shell: bash
-        run: |
-          echo "${{ steps.setup.outputs.connection-string }}"
-      - name: Teardown
-        uses: mongodb/atlas-github-action@v0.2.0
-        with:
-          delete-project-id: ${{ steps.create-project.outputs.create-project-id }}
-          delete-cluster-name: test-cluster
+          name: clusters-list
+          path: clusters.json
