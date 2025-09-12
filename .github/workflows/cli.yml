@@ -6,8 +6,9 @@ name: Atlas CLI List Clusters Example
 env:
   MONGODB_ATLAS_CLIENT_ID: ${{ secrets.CLIENT_ID }}
   MONGODB_ATLAS_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-  MONGODB_ATLAS_ORG_ID: ${{ secrets.ORG_ID }} # default organisation ID
-  MONGODB_ATLAS_PROJECT_ID: ${{ secrets.PROJECT_ID }} # default project ID
+  MONGODB_ATLAS_ORG_ID: ${{ secrets.MONGODB_ATLAS_ORG_ID }} # default organisation ID
+  MONGODB_ATLAS_PROJECT_ID: ${{ secrets.MONGODB_ATLAS_PROJECT_ID }} # default project ID
+  MONGODB_ATLAS_OPS_MANAGER_URL: ${{ secrets.MONGODB_ATLAS_OPS_MANAGER_URL }} # optional, only for Ops Manager users
 
 jobs:
   list-clusters:
