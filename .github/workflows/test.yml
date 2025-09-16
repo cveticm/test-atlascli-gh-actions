@@ -7,6 +7,8 @@ env:
   MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_API_KEY }}
   MONGODB_ATLAS_ORG_ID: ${{ secrets.MONGODB_ATLAS_ORG_ID }}
   MONGODB_ATLAS_PROJECT_ID: ${{ secrets.MONGODB_ATLAS_PROJECT_ID }}
+  MONGODB_ATLAS_OPS_MANAGER_URL: "https://cloud-dev.mongodb.com/"
+  MONGODB_ATLAS_SILENCE_STORAGE_WARNING: "true"
 
 jobs:
   test-service-account-authentication:
