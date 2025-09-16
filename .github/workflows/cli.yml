@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Setup AtlasCLI
-        uses: mongodb/atlas-github-action@v0.2.0
+        uses: mongodb/atlas-github-action@v0.2.1
       - name: List Clusters
         shell: bash
         run: |
